@@ -1,0 +1,50 @@
+{
+  "name": "youtube-ai-agent",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^1.2.4",
+    "@ai-sdk/react": "^1.2.5",
+    "@clerk/nextjs": "^6.12.9",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-slot": "^1.1.2",
+    "@schematichq/schematic-components": "^0.7.0",
+    "@schematichq/schematic-react": "^1.2.4",
+    "@schematichq/schematic-typescript-node": "^1.1.10",
+    "@stripe/react-stripe-js": "^3.5.1",
+    "ai": "^4.2.10",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "convex": "^1.22.0",
+    "googleapis": "^148.0.0",
+    "lucide-react": "^0.485.0",
+    "next": "^15.2.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^10.1.0",
+    "tailwind-merge": "^3.0.2",
+    "tw-animate-css": "^1.2.5",
+    "youtube-ai-agent": "file:",
+    "youtubei.js": "^13.3.0",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.16",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "15.2.4",
+    "tailwindcss": "^4",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5"
+  }
+}
