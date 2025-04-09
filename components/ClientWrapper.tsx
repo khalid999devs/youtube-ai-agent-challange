@@ -16,7 +16,11 @@ const ClientWrapper = ({
   }
   return (
     <ConvexClientProvider>
-      <SchematicProvider publishableKey={schematicPubKey}>
+      <SchematicProvider
+        publishableKey={schematicPubKey}
+        debug={true}
+        useWebSocket={true}
+      >
         <SchematicWrapped>{children}</SchematicWrapped>
       </SchematicProvider>
     </ConvexClientProvider>

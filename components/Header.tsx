@@ -2,7 +2,13 @@
 
 import Link from 'next/link';
 import AgentPulse from './AgentPulse';
-import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from '@clerk/nextjs';
 import { Button } from './ui/button';
 
 const Header = () => {
@@ -37,6 +43,14 @@ const Header = () => {
             </SignedIn>
 
             <SignedOut>
+              <SignUpButton mode='modal'>
+                <Button
+                  variant={'ghost'}
+                  className='bg-gradient-to-r from-blue-600 to-blue-400 text-transparent bg-clip-text cursor-pointer'
+                >
+                  Sign Up
+                </Button>
+              </SignUpButton>
               <SignInButton mode='modal'>
                 <Button
                   variant={'ghost'}

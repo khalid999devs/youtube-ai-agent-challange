@@ -29,6 +29,8 @@ function Usage({
     return <div className='text-gray-500 text-center py-4'>Loading...</div>;
   }
 
+  console.log('Feature Usage: ', featureUsage);
+
   if (hasUsedAllTokens) {
     return (
       <div className='bg-white rounded-2xl shadow-sm border border-red-100 p-6'>

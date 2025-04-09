@@ -5,10 +5,13 @@ import Usage from './Usage';
 import { FeatureFlags } from '@/features/flags';
 import { useSchematicEntitlement } from '@schematichq/schematic-react';
 import { Copy } from 'lucide-react';
+import { useQuery } from 'convex/react';
+import { api } from '@/convex/_generated/api';
+import { toast } from 'sonner';
 
 function TitleGeneration({ videoId }: { videoId: string }) {
   const { user } = useUser();
-  const titles = []; //pull from convex db
+  const titles = useQuery(api.titles.list, { videoId, userId: user?.id ?? '' });
 
   const { value: isTitleGenerationEnabled } = useSchematicEntitlement(
     FeatureFlags.TITLE_GENERATIONS
@@ -16,6 +19,7 @@ function TitleGeneration({ videoId }: { videoId: string }) {
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+    toast.success('Copied to clipboard');
   };
 
   return (
@@ -37,7 +41,7 @@ function TitleGeneration({ videoId }: { videoId: string }) {
 
               <button
                 onClick={() => copyToClipboard(title.title)}
-                className='opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 hover:bg-blue-100 rounded-md'
+                className='opacity-0 group-hover:opacity-100 transition-opacity duration-200 p-1.5 hover:bg-blue-100 rounded-md cursor-pointer'
                 title='Copy to clipboard'
               >
                 <Copy className='w-4 h-4 text-blue-600' />

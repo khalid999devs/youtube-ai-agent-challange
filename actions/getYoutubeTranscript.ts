@@ -1,5 +1,13 @@
+'use server';
+
+import { api } from '@/convex/_generated/api';
+import { featureFlagEvents, FeatureFlags } from '@/features/flags';
+import { client } from '@/lib/schematic';
 import { currentUser } from '@clerk/nextjs/server';
+import { ConvexHttpClient } from 'convex/browser';
 import { Innertube } from 'youtubei.js';
+
+const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
 
 export interface TranscriptEntry {
   text: string;
@@ -44,15 +52,50 @@ export async function getYoutubeTranscript(videoId: string) {
   }
 
   // check if already in db
+  const existingTranscript = await convex.query(
+    api.transcript.getTranscriptByVideoId,
+    {
+      videoId,
+      userId: user.id,
+    }
+  );
+
+  if (existingTranscript) {
+    return {
+      cache:
+        'This video has already been transcribed - Accessing cached transcript instead of using a token',
+      transcript: existingTranscript.transcript,
+    };
+  }
 
   //if not fetch from youtube
-  const transcript = await fetchTranscript(videoId);
-  return {
-    transcript,
-    cache: 'This was not cached',
-  };
+  try {
+    const transcript = await fetchTranscript(videoId);
+    await convex.mutation(api.transcript.storeTranscript, {
+      videoId,
+      userId: user.id,
+      transcript,
+    });
 
-  // save to db
+    await client.track({
+      event: featureFlagEvents[FeatureFlags.TRANSCRIPTION].event,
+      company: {
+        id: user.id,
+      },
+      user: {
+        id: user.id,
+      },
+    });
 
-  // return transcript
+    return {
+      transcript,
+      cache:
+        'This video was transcribed using a token, the transcript is now saved in the database',
+    };
+  } catch (error) {
+    return {
+      transcript: [],
+      cache: 'Error fetching transcript, please try again later',
+    };
+  }
 }
